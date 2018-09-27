@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <img src="./assets/logo.png">    
     <todo-list v-bind:todo_1=msg></todo-list>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
@@ -17,17 +17,22 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
-    <h3>Routes</h3>
     
+    <h3>Routes</h3>
+    <router-view name="header"></router-view>
     <router-view></router-view>
     <todo-footer v-on:click_event=on_click_event></todo-footer>
+    <router-view name="footer"></router-view>
   </div>
 </template>
 
-<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 <script>
 import "./main.js";
 import Vue from "vue";
+import axios from 'axios'
+import VueAxios from "vue-axios"
+
+Vue.use(VueAxios, axios)
 
 var eventBus = new Vue();
 
@@ -43,6 +48,7 @@ Vue.component("todo-footer", {
 
 var comp_todo_list = {
   template: "<div>this-is-list: {{todo_1}}</div>",
+  // props 는 v-bind를 통해 부모컴포넌트의 변수 값 바인딩 가능
   props: {
     todo_1: String,
     todo_2: Number
@@ -61,6 +67,11 @@ export default {
   },
   methods: {
     on_click_event: function(arg) {
+      axios.get('https://raw.githubusercontent.com/joshua1988/doit-vuejs/master/data/demo.json')
+      .then(function(response){
+        console.log(response)
+        console.log(response.data.fe1) // direct access json data
+      })
       console.log("on_click_event: " + arg);
     }
   },
