@@ -39,7 +39,7 @@ var eventBus = new Vue();
 Vue.component("todo-footer", {
   template: '<button v-on:click="on_click">click me</button>',
   methods: {
-    on_click: function() {
+    on_click() {
       this.$emit("click_event", "gg");
       eventBus.$emit("on_event_bus", 100);
     }
@@ -66,21 +66,21 @@ export default {
     };
   },
   methods: {
-    on_click_event: function(arg) {
+    on_click_event(arg) {
       axios.get('https://raw.githubusercontent.com/joshua1988/doit-vuejs/master/data/demo.json')
-      .then(function(response){
+      .then((response)=>{ // ES6 arrow function (ES5 : function(response){...} )
         console.log(response)
         console.log(response.data.fe1) // direct access json data
       })
       console.log("on_click_event: " + arg);
     }
   },
-  created: function() {
+  created() {
     eventBus.$on("on_event_bus", function(arg) {
       console.log("on_event_bus: " + arg);
     });
   },
-  beforeUpdate: function() {
+  beforeUpdate() {
     console.log("bfUpdate");
   }
 };
